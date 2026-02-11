@@ -10,7 +10,7 @@ std::vector<uint64_t> image_findInstructions(const struct mach_header_64* mh, st
 
 - `targetSequence`: cpp vector of c strings that contains an exact sequence (so the order matters) of string representations (mnemonics) of arm64 instructions. For example "mov" or "bl".
   
-- `return`: a cpp vector of start addresses of the found target sequences of instructions (these addresses take ASLR slide into account, so they should be ready for use)
+- `return`: a cpp vector containing start addresses of the found target sequences of instructions (these addresses take ASLR slide into account, so they should be ready for use)
 
 ```cpp 
 const struct mach_header_64* image_createFromBinaryName(const char *binaryName)
