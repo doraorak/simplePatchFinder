@@ -11,9 +11,9 @@
 
 int main(void){
     
-    const struct mach_header_64* mh = image_createFromBinaryName("Foundation");
+    const struct mach_header_64* mh = image_getFromBinaryName("libobjc.A.dylib");
     
-    auto results = image_findInstructions(mh, {"pacibsp", "stp", "stp"});
+    auto results = image_findInstructions(mh, {"pacibsp"});
     
     std::cout << results[0] << std::endl;
     

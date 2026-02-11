@@ -60,7 +60,7 @@ intptr_t image_getSlide(const struct mach_header_64 *target) {
 }
 
 
-const struct mach_header_64* image_createFromBinaryName(const char *binaryName)
+const struct mach_header_64* image_getFromBinaryName(const char *binaryName)
 {
     if (!binaryName)
         return NULL;
