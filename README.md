@@ -15,10 +15,15 @@ This is a single header cpp library that uses capstone (https://www.capstone-eng
 
 - `return`: a mach header pointer for the target loaded image
 
+# Dependencies
+
+Depends on capstone library, see https://www.capstone-engine.org for installation tutorial
+
 # Example 
 
 see test.mm file. 
 ```cpp
+#include "simplePatchFinder.hpp"
 const struct mach_header_64* mh = image_createFromBinaryName("libobjc.A.dylib");
 image_findInstructions(mh, {"pacibsp", "stp", "stp"});
 ```
