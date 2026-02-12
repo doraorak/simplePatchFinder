@@ -1,5 +1,5 @@
 # Info
-This is a single header cpp library that uses capstone (https://www.capstone-engine.org) to find start addresses of an unique sequence of instruction mnemonics in a given image (main executable, dylib or a framework)
+This is a cpp library that uses capstone (https://www.capstone-engine.org) to find start addresses of an unique sequence of instruction mnemonics in a given image (main executable, dylib or a framework)
 
 The search is done in terms of mnemonics (instruction strings like "mov", "str" etc), which means there is no way to search based on instruction operands or immediate values. This is because the tool is meant to be simple.
 
@@ -27,9 +27,11 @@ const struct mach_header_64* image_getFromBinaryName(const char* binaryName)
 
 Depends on capstone library, you can install it via `brew install capstone` for more information see https://www.capstone-engine.org.
 
+The binary in the releases page is statically linked to capstone so it should work standalone without any dependencies.
+
 # Example 
 
-see test.mm file. 
+see simplePatchFinder-Test. 
 ```cpp
 #include "simplePatchFinder.hpp"
 const struct mach_header_64* mh = image_getFromBinaryName("libobjc.A.dylib");
