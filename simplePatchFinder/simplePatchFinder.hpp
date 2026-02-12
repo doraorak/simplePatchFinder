@@ -8,8 +8,6 @@
 #include <iostream>
 #include <mach-o/loader.h>
 
-typedef std::vector<std::pair<std::string, uint64_t>> Instructions; //Vector<pair<mnemonic, address>>
-
 /*
  @abstract: Returns an image (mach header) from its binary name
  
@@ -27,6 +25,5 @@ const struct mach_header_64* image_getFromBinaryName(const char *binaryName);
  @param targetSequence: cpp vector of c strings that contains an exact sequence (so the order matters) of string representations (mnemonics) of arm64 instructions. For example "mov" or "bl".
 
  @return: cpp vector containing start addresses of the found target sequences of instructions (these addresses take ASLR slide into account, so they should be ready for use)
- 
  */
 std::vector<uint64_t> image_findInstructions(const struct mach_header_64* mh, std::vector<const char*>&& targetSequence);
