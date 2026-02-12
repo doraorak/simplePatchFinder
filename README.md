@@ -29,6 +29,13 @@ Depends on capstone library, you can install it via `brew install capstone` for 
 
 The binary in the releases page is statically linked to capstone so it should work standalone without any dependencies.
 
+# Usage
+
+1. download the prebuilt library in the releases page
+2. #include "simplePatchFinder.hpp"
+3. add the dylib to your projects Libraries & Frameworks section
+4. see Example for code snippet
+
 # Example 
 
 see simplePatchFinder-Test. 
