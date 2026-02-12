@@ -6,10 +6,7 @@
 //
 
 #include <iostream>
-#include <vector>
-#include <mach-o/dyld.h>
 #include <mach-o/loader.h>
-
 
 typedef std::vector<std::pair<std::string, uint64_t>> Instructions; //Vector<pair<mnemonic, address>>
 

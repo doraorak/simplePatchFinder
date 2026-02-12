@@ -246,6 +246,7 @@
 		1400330D2F3DF24C00716E4C /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = arm64;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 3FC7C2PF4P;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -261,6 +262,7 @@
 		1400330E2F3DF24C00716E4C /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = arm64;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 3FC7C2PF4P;
 				DYLIB_COMPATIBILITY_VERSION = 1;

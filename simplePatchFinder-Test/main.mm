@@ -5,8 +5,6 @@
 //  Created by Dora Orak on 12.02.2026.
 //
 
-
-
 #import <Foundation/Foundation.h>
 #import "simplePatchFinder.hpp" //you have to add libsimplePatchFinder.dylib to general->"Libraries and Frameworks" in target settings
 
