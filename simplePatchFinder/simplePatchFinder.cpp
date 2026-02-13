@@ -84,10 +84,23 @@ const struct mach_header_64* image_getFromBinaryName(const char *binaryName)
     return NULL;
 }
 
+const struct mach_header_64* image_getMain(){
+    uint32_t count = _dyld_image_count();
+    const struct mach_header_64* mh = NULL;
+    for (uint32_t i = 0; i < count; i++) {
+        mh = (const struct mach_header_64*)_dyld_get_image_header(i);
+        if (mh->filetype == MH_EXECUTE){
+            break;
+        }
+    }
+    
+    return mh;
+}
+
 std::vector<uint64_t> image_findInstructions(const struct mach_header_64* mh, std::vector<const char*>&& targetSequence) {
     
     if(mh == NULL){
-        mh = (const struct mach_header_64*)_dyld_get_image_header(0);
+        mh = image_getMain();
     }
     
     intptr_t slide = image_getSlide(mh);

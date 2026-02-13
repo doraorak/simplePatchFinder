@@ -8,19 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		1400331B2F3DF27800716E4C /* libcapstone.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 140032FF2F3DF1C100716E4C /* libcapstone.a */; };
-		140033282F3DF32800716E4C /* libsimplePatchFinder.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 140033062F3DF24C00716E4C /* libsimplePatchFinder.dylib */; };
-		140033292F3DF32800716E4C /* libsimplePatchFinder.dylib in Embed Libraries */ = {isa = PBXBuildFile; fileRef = 140033062F3DF24C00716E4C /* libsimplePatchFinder.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		14F878222F3EB73800F27471 /* libsimplePatchFinder.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 14F878212F3EB73800F27471 /* libsimplePatchFinder.dylib */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXContainerItemProxy section */
-		1400332A2F3DF32800716E4C /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 148AEF292F3B58A500EC836E /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 140033052F3DF24C00716E4C;
-			remoteInfo = simplePatchFinder;
-		};
-/* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		1400331E2F3DF2D100716E4C /* CopyFiles */ = {
@@ -32,23 +21,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 1;
 		};
-		1400332C2F3DF32800716E4C /* Embed Libraries */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				140033292F3DF32800716E4C /* libsimplePatchFinder.dylib in Embed Libraries */,
-			);
-			name = "Embed Libraries";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		140032FF2F3DF1C100716E4C /* libcapstone.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcapstone.a; path = ../../../../../../.nofollow/usr/local/lib/libcapstone.a; sourceTree = "<group>"; };
 		140033062F3DF24C00716E4C /* libsimplePatchFinder.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libsimplePatchFinder.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
 		140033202F3DF2D100716E4C /* simplePatchFinder-Test */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "simplePatchFinder-Test"; sourceTree = BUILT_PRODUCTS_DIR; };
+		14F878212F3EB73800F27471 /* libsimplePatchFinder.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsimplePatchFinder.dylib; path = ../../../../../../.nofollow/usr/local/lib/libsimplePatchFinder.dylib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -90,7 +69,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				140033282F3DF32800716E4C /* libsimplePatchFinder.dylib in Frameworks */,
+				14F878222F3EB73800F27471 /* libsimplePatchFinder.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -119,6 +98,7 @@
 		148AEF3F2F3B67F400EC836E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				14F878212F3EB73800F27471 /* libsimplePatchFinder.dylib */,
 				140032FF2F3DF1C100716E4C /* libcapstone.a */,
 			);
 			name = Frameworks;
@@ -163,12 +143,10 @@
 				1400331C2F3DF2D100716E4C /* Sources */,
 				1400331D2F3DF2D100716E4C /* Frameworks */,
 				1400331E2F3DF2D100716E4C /* CopyFiles */,
-				1400332C2F3DF32800716E4C /* Embed Libraries */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				1400332B2F3DF32800716E4C /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				140033212F3DF2D100716E4C /* simplePatchFinder-Test */,
@@ -187,6 +165,7 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 2600;
 				LastUpgradeCheck = 2600;
 				TargetAttributes = {
 					140033052F3DF24C00716E4C = {
@@ -234,14 +213,6 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
-/* Begin PBXTargetDependency section */
-		1400332B2F3DF32800716E4C /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 140033052F3DF24C00716E4C /* simplePatchFinder */;
-			targetProxy = 1400332A2F3DF32800716E4C /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
-
 /* Begin XCBuildConfiguration section */
 		1400330D2F3DF24C00716E4C /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -288,6 +259,8 @@
 				ENABLE_RESOURCE_ACCESS_CONTACTS = NO;
 				ENABLE_RESOURCE_ACCESS_LOCATION = NO;
 				ENABLE_RESOURCE_ACCESS_PHOTO_LIBRARY = NO;
+				HEADER_SEARCH_PATHS = /usr/local/include;
+				LIBRARY_SEARCH_PATHS = /usr/local/lib;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				RUNTIME_EXCEPTION_ALLOW_DYLD_ENVIRONMENT_VARIABLES = NO;
 				RUNTIME_EXCEPTION_ALLOW_JIT = NO;
@@ -311,6 +284,9 @@
 				ENABLE_RESOURCE_ACCESS_CONTACTS = NO;
 				ENABLE_RESOURCE_ACCESS_LOCATION = NO;
 				ENABLE_RESOURCE_ACCESS_PHOTO_LIBRARY = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				HEADER_SEARCH_PATHS = /usr/local/include;
+				LIBRARY_SEARCH_PATHS = /usr/local/lib;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				RUNTIME_EXCEPTION_ALLOW_DYLD_ENVIRONMENT_VARIABLES = NO;
 				RUNTIME_EXCEPTION_ALLOW_JIT = NO;
