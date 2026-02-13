@@ -27,7 +27,7 @@ const struct mach_header_64* image_getFromBinaryName(const char* binaryName)
 
 Depends on capstone library, you can install it via `brew install capstone` for more information see https://www.capstone-engine.org.
 
-The binary in the releases page is statically linked to capstone so it should work standalone without any dependencies.
+The binaries in the releases page are statically linked to capstone so it should work standalone without any dependencies.
 
 # Usage
 
