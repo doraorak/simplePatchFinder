@@ -13,10 +13,17 @@
 int main(int argc, const char * argv[] ) {
     void* handle = dlopen("/usr/lib/system/libdyld.dylib", 0);
     
-    auto mh = image_getFromBinaryName("libdyld.dylib");
+    const struct mach_header_64* mh = image_getFromBinaryName("libdyld.dylib");
+   
     const std::vector<uint64_t> results = image_findInstructions(mh, {"pacibsp", "sub", "stp", "stp", "stp", "add", "mov", "mov", "cmp"});
     
     std::cout << results.size() << std::endl;
+    
+ 
+    /*char* ins[9] = {"pacibsp", "sub", "stp", "stp", "stp", "add", "mov", "mov", "cmp"};
+    
+    uint64_t* results = image_findInstructions(mh, ins, 9); //also works in cpp
+    */
     
     uint64_t add = results[0];
     

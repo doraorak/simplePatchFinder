@@ -22,7 +22,13 @@
  */
 std::vector<uint64_t> image_findInstructions(const struct mach_header_64* mh, std::vector<const char*>&& targetSequence);
 
-#endif
+// see below
+extern "C" const struct mach_header_64* image_getFromBinaryName(const char *binaryName);
+
+// see below
+extern "C" uint64_t* image_findInstructions(const struct mach_header_64* mh, char** targetSequence, size_t size);
+
+#else
 
 /*
  @abstract: c binding for image_findInstructions above
@@ -45,3 +51,5 @@ uint64_t* image_findInstructions(const struct mach_header_64* mh, char** targetS
  @return: mach header pointer for the target loaded image
  */
 const struct mach_header_64* image_getFromBinaryName(const char *binaryName);
+
+#endif
