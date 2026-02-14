@@ -1,5 +1,5 @@
 # Info
-This is a cpp library that uses capstone (https://www.capstone-engine.org) to find start addresses of an unique sequence of instruction mnemonics in a given image (main executable, dylib or a framework)
+This is a cpp library that uses capstone (https://www.capstone-engine.org) to find start addresses of an unique sequence of instruction mnemonics in a given image (main executable, dylib or a framework).
 
 The search is done in terms of mnemonics (instruction strings like "mov", "str" etc), which means there is no way to search based on instruction operands or immediate values. This is because the tool is meant to be simple.
 
@@ -10,18 +10,33 @@ When looking for target sequences in binaries; in order to match instructions ge
 std::vector<uint64_t> image_findInstructions(const struct mach_header_64* mh, std::vector<const char*>&& targetSequence)
 ```
 
-- `mh`: image (mach header) to look for the target sequence in. You can pass NULL to search in the main executable
+- `mh`: image (mach header) to look for the target sequence in. You can pass NULL to search in the main executable.
 
 - `targetSequence`: cpp vector of c strings that contains an exact sequence (so the order matters) of string representations (mnemonics) of arm64 instructions. For example "mov" or "bl".
   
-- `return`: cpp vector containing start addresses of the found target sequences of instructions (these addresses take ASLR slide into account, so they should be ready for use)
+- `return`: cpp vector containing start addresses of the found target sequences of instructions (these addresses take ASLR slide into account, so they should be ready for use).
 
-```cpp 
-const struct mach_header_64* image_getFromBinaryName(const char* binaryName)
+```c
+extern "C" const struct mach_header_64* image_getFromBinaryName(const char* binaryName)
 ```
-- `binaryName`: binary name of the loaded image. For example just "AppKit" for /System/Library/Frameworks/AppKit.framework/Versions/C/AppKit or "libobjc.A.dylib" for /usr/lib/libobjc.A.dylib
+- `binaryName`: binary name of the loaded image. For example just "AppKit" for /System/Library/Frameworks/AppKit.framework/Versions/C/AppKit or "libobjc.A.dylib" for /usr/lib/libobjc.A.dylib.
 
-- `return`: mach header pointer for the target loaded image
+- `return`: mach header pointer for the target loaded image.
+
+# C binding
+The library exposes the c function below so it can be used without cpp.
+```c
+uint64_t* image_findInstructions(const struct mach_header_64* mh, char** targetSequence, size_t size)
+```
+
+- `mh`: image (mach header) to look for the target sequence in. You can pass NULL to search in the main executable.
+
+- `targetSequence`: c array of c strings that contains an exact sequence (so the order matters) of string representations (mnemonics) of arm64 instructions. For example "mov" or "bl".
+  
+- `size`: count of how many instructions there are in targetSequence.
+  
+- `return`: c array (caller is responsible for freeing) containing start addresses of the found target sequences of instructions (these addresses take ASLR slide into account, so they should be ready for use).
+
 
 # Dependencies
 
@@ -31,16 +46,16 @@ The binaries in the releases page are statically linked to capstone so it should
 
 # Usage
 
-1. download the prebuilt library in the releases page
-2. #include "simplePatchFinder.hpp"
-3. add the dylib to your projects Libraries & Frameworks section
-4. see Example for code snippet
+1. download the prebuilt library in the releases page.
+2. #include "simplePatchFinder.h".
+3. add the dylib to your projects Libraries & Frameworks section.
+4. see Example for code snippet.
 
 # Example 
 
 see simplePatchFinder-Test. 
 ```cpp
-#include "simplePatchFinder.hpp"
+#include "simplePatchFinder.h"
 const struct mach_header_64* mh = image_getFromBinaryName("libobjc.A.dylib");
 std::vector<uint64_t> addresses = image_findInstructions(mh, {"pacibsp", "stp", "stp"});
 //for each address entry in `addresses`, first 3 instructions are "pacibsp", "stp", "stp"
