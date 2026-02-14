@@ -60,7 +60,7 @@ intptr_t image_getSlide(const struct mach_header_64 *target) {
 }
 
 
-const struct mach_header_64* image_getFromBinaryName(const char *binaryName)
+extern "C" const struct mach_header_64* image_getFromBinaryName(const char *binaryName)
 {
     if (!binaryName)
         return NULL;
@@ -188,4 +188,23 @@ std::vector<uint64_t> image_findInstructions(const struct mach_header_64* mh, st
     cs_close(&handle);
     return ret;
     
+}
+
+extern "C" uint64_t* image_findInstructions(const struct mach_header_64* mh, char** targetSequence, size_t size){
+    
+    std::vector<const char*> vec = {};
+    
+    for (int i = 0; i < size; i++){
+        vec.push_back(targetSequence[i]);
+    }
+    
+    std::vector<uint64_t> addresses = image_findInstructions(mh, std::move(vec));
+    
+    uint64_t* ret = (uint64_t*)malloc(addresses.size() * sizeof(uint64_t));
+    
+    for (int i = 0; i < addresses.size(); i++){
+        ret[i] = addresses.at(i);
+    }
+    
+    return ret;
 }

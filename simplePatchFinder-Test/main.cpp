@@ -1,0 +1,82 @@
+//
+//  main.m
+//  simplePatchFinder-Test
+//
+//  Created by Dora Orak on 12.02.2026.
+//
+
+#include "simplePatchFinder.h" //you have to add libsimplePatchFinder.dylib to general->"Libraries and Frameworks" in target settings
+#include <mach-o/loader.h>
+#include <mach-o/dyld.h>
+#include <dlfcn.h>
+
+int main(int argc, const char * argv[] ) {
+    void* handle = dlopen("/usr/lib/system/libdyld.dylib", 0);
+    
+    auto mh = image_getFromBinaryName("libdyld.dylib");
+    const std::vector<uint64_t> results = image_findInstructions(mh, {"pacibsp", "sub", "stp", "stp", "stp", "add", "mov", "mov", "cmp"});
+    
+    std::cout << results.size() << std::endl;
+    
+    uint64_t add = results[0];
+    
+    ((char*(*)(uint64_t))add)((uint64_t)mh);
+ 
+    return 1;
+    
+}
+
+/* C binding usage example
+ main.c file:
+ 
+ #include "simplePatchFinder.h"
+ #include <dlfcn.h>
+
+ int main(int argc, const char * argv[] ) {
+     void* handle = dlopen("/usr/lib/system/libdyld.dylib", 0);
+     
+     const struct mach_header_64* mh = image_getFromBinaryName("libdyld.dylib");
+     
+     char* ins[9] = {"pacibsp", "sub", "stp", "stp", "stp", "add", "mov", "mov", "cmp"};
+     
+     uint64_t* results = image_findInstructions(mh, ins, 9); //3rd parameter is instructions count
+         
+     uint64_t add = results[0];
+     
+     ((char*(*)(uint64_t))add)((uint64_t)mh);
+  
+     return 1;
+     
+ }
+ */
+
+/*
+ Swift/objc++ bridging and wrapper example:
+ 
+ #import <Foundation/Foundation.h>
+ #import "simplePatchFinder.hpp"
+
+ NSArray* swift_findInstructions(const struct mach_header_64* mh, NSArray* arr){
+     
+     std::vector<const char*> vec = {};
+     
+     for (NSString* str in arr){
+         vec.push_back(str.UTF8String);
+     }
+     
+     auto results = image_findInstructions(mh, std::move(vec));
+     
+     NSMutableArray* ret = [NSMutableArray array];
+     
+     for (uint64_t index : results){
+         [ret addObject:@(index)];
+     }
+     
+     return ret;
+ }
+ 
+Change the swift/objc interoperability mode to swift/objc++ from project settings.
+After that use a bridging header to expose this objc++ function to swift.
+When used from swift it takes a swift array of swift strings for the second argument
+ 
+ */
