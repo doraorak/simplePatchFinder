@@ -1,5 +1,5 @@
 # Info
-This is a cpp library that uses capstone (https://www.capstone-engine.org) to find start addresses of an unique sequence of instruction mnemonics in a given image (main executable, dylib or a framework).
+This is a c/cpp library that uses capstone (https://www.capstone-engine.org) to find start addresses of an unique sequence of instruction mnemonics in a given image (main executable, dylib or a framework).
 
 The search is done in terms of mnemonics (instruction strings like "mov", "str" etc), which means there is no way to search based on instruction operands or immediate values. This is because the tool is meant to be simple.
 
