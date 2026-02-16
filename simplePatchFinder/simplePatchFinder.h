@@ -5,6 +5,8 @@
 //  Created by Dora Orak on 12.02.2026.
 //
 
+#pragma once
+
 #include <mach-o/loader.h>
 
 #ifdef __cplusplus
@@ -22,13 +24,9 @@
  */
 std::vector<uint64_t> image_findInstructions(const struct mach_header_64* mh, std::vector<const char*>&& targetSequence);
 
-// see below
-extern "C" const struct mach_header_64* image_getFromBinaryName(const char *binaryName);
+extern "C" {
 
-// see below
-extern "C" uint64_t* image_findInstructions(const struct mach_header_64* mh, char** targetSequence, size_t size);
-
-#else
+#endif
 
 /*
  @abstract: c binding for image_findInstructions above
@@ -36,12 +34,14 @@ extern "C" uint64_t* image_findInstructions(const struct mach_header_64* mh, cha
  @param mh: image (mach header) to look for the target sequence in. You can pass NULL to search in the main executable
  
  @param targetSequence: c array of c strings that contains an exact sequence (so the order matters) of string representations (mnemonics) of arm64 instructions. For example "mov" or "bl".
-
+ 
  @param size: count of how many instructions there are in targetSequence
-
+ 
+ @out param outCount: pointer that will contain the count of returned addresses after the function finishes
+ 
  @return: c array (caller is responsible for freeing) containing start addresses of the found target sequences of instructions (these addresses take ASLR slide into account, so they should be ready for use)
  */
-uint64_t* image_findInstructions(const struct mach_header_64* mh, char** targetSequence, size_t size);
+uint64_t* image_findInstructions(const struct mach_header_64* mh, char** targetSequence, size_t size, size_t* outCount);
 
 /*
  @abstract: Returns an image (mach header) from its binary name
@@ -51,5 +51,6 @@ uint64_t* image_findInstructions(const struct mach_header_64* mh, char** targetS
  @return: mach header pointer for the target loaded image
  */
 const struct mach_header_64* image_getFromBinaryName(const char *binaryName);
-
+#ifdef __cplusplus
+}
 #endif

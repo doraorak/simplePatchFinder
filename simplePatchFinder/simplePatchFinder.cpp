@@ -190,7 +190,7 @@ std::vector<uint64_t> image_findInstructions(const struct mach_header_64* mh, st
     
 }
 
-extern "C" uint64_t* image_findInstructions(const struct mach_header_64* mh, char** targetSequence, size_t size){
+extern "C" uint64_t* image_findInstructions(const struct mach_header_64* mh, char** targetSequence, size_t size, size_t* outCount){
     
     std::vector<const char*> vec = {};
     
@@ -205,6 +205,8 @@ extern "C" uint64_t* image_findInstructions(const struct mach_header_64* mh, cha
     for (int i = 0; i < addresses.size(); i++){
         ret[i] = addresses.at(i);
     }
+    
+    *outCount = addresses.size();
     
     return ret;
 }

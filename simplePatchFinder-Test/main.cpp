@@ -19,11 +19,11 @@ int main(int argc, const char * argv[] ) {
     
     std::cout << results.size() << std::endl;
     
- 
-    /*char* ins[9] = {"pacibsp", "sub", "stp", "stp", "stp", "add", "mov", "mov", "cmp"};
-    
-    uint64_t* results = image_findInstructions(mh, ins, 9); //also works in cpp
-    */
+ /*
+    char* ins[9] = {"pacibsp", "sub", "stp", "stp", "stp", "add", "mov", "mov", "cmp"};
+    size_t outcount;
+    uint64_t* cresults = image_findInstructions(mh, ins, 9, &outcount); //also works in cpp
+ */
     
     uint64_t add = results[0];
     
@@ -45,8 +45,10 @@ int main(int argc, const char * argv[] ) {
      const struct mach_header_64* mh = image_getFromBinaryName("libdyld.dylib");
      
      char* ins[9] = {"pacibsp", "sub", "stp", "stp", "stp", "add", "mov", "mov", "cmp"};
-     
-     uint64_t* results = image_findInstructions(mh, ins, 9); //3rd parameter is instructions count
+
+     size_t outcount = 0;
+ 
+     uint64_t* results = image_findInstructions(mh, ins, 9, &outcount); //3rd parameter is instructions count, 4th parameter is a pointer to size_t, upon return it contains how many entries there are in the result array
          
      uint64_t add = results[0];
      
