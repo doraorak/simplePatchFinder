@@ -22,7 +22,7 @@
 
  @return: cpp vector containing start addresses of the found target sequences of instructions (these addresses take ASLR slide into account, so they should be ready for use)
  */
-std::vector<uint64_t> image_findInstructions(const struct mach_header_64* mh, std::vector<const char*>&& targetSequence);
+std::vector<uint64_t> image_findInstructions(const struct mach_header_64* mh, std::vector<const char*> targetSequence);
 
 extern "C" {
 

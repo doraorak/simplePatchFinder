@@ -97,7 +97,7 @@ const struct mach_header_64* image_getMain(){
     return mh;
 }
 
-std::vector<uint64_t> image_findInstructions(const struct mach_header_64* mh, std::vector<const char*>&& targetSequence) {
+std::vector<uint64_t> image_findInstructions(const struct mach_header_64* mh, std::vector<const char*> targetSequence) {
     
     if(mh == NULL){
         mh = image_getMain();
