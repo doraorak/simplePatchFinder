@@ -26,7 +26,7 @@ extern "C" const struct mach_header_64* image_getFromBinaryName(const char* bina
 # C binding
 The library exposes the c function below so it can be used without cpp.
 ```c
-uint64_t* image_findInstructions(const struct mach_header_64* mh, char** targetSequence, size_t size)
+uint64_t* image_findInstructions(const struct mach_header_64* mh, char** targetSequence, size_t size, size_t* outCount)
 ```
 
 - `mh`: image (mach header) to look for the target sequence in. You can pass NULL to search in the main executable.
@@ -34,6 +34,8 @@ uint64_t* image_findInstructions(const struct mach_header_64* mh, char** targetS
 - `targetSequence`: c array of c strings that contains an exact sequence (so the order matters) of string representations (mnemonics) of arm64 instructions. For example "mov" or "bl".
   
 - `size`: count of how many instructions there are in targetSequence.
+
+- `outCount`: address of a size_t variable, the variable will be the count of address entries the return array contains after this call.
   
 - `return`: c array (caller is responsible for freeing) containing start addresses of the found target sequences of instructions (these addresses take ASLR slide into account, so they should be ready for use).
 
