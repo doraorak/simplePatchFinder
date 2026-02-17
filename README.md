@@ -7,7 +7,7 @@ When looking for target sequences in binaries; in order to match instructions ge
 
 # API
 ```cpp
-std::vector<uint64_t> image_findInstructions(const struct mach_header_64* mh, std::vector<const char*>&& targetSequence)
+std::vector<uint64_t> image_findInstructions(const struct mach_header_64* mh, std::vector<const char*> targetSequence)
 ```
 
 - `mh`: image (mach header) to look for the target sequence in. You can pass NULL to search in the main executable.
