@@ -77,8 +77,8 @@ int main(int argc, const char * argv[] ) {
      
      NSMutableArray* ret = [NSMutableArray array];
      
-     for (uint64_t index : results){
-         [ret addObject:@(index)];
+     for (uint64_t address : results){
+         [ret addObject:@(address)];
      }
      
      return ret;
