@@ -7,16 +7,74 @@
 
 #include <capstone/capstone.h> // depends on capstone, statically linking against it so our dylib can work standalone
 #include <iostream>
+#include <sstream>
 //#include <stdio.h>
 #include <vector>
 #include <mach-o/dyld.h>
 #include <mach-o/loader.h>
 
-typedef std::vector<std::pair<std::string, uint64_t>> Instructions; //Vector<pair<mnemonic, address>>
+typedef std::vector<std::tuple<std::string, std::string, uint64_t>> Instructions; //Vector<Tuple<mnemonic, op_str, address>>
+
+struct ParsedInput {
+    std::string mnemonic;
+    std::vector<std::string> operands;
+};
+
+ParsedInput parseInput(const std::string& input) {
+    ParsedInput result;
+
+    std::istringstream iss(input);
+    iss >> result.mnemonic;
+
+    std::string operand;
+    while (iss >> operand) {
+        result.operands.push_back(operand);
+    }
+
+    return result;
+}
+
+std::vector<std::string> splitRealOperands(const std::string& opStr) {
+    std::vector<std::string> result;
+    std::stringstream ss(opStr);
+    std::string item;
+
+    while (std::getline(ss, item, ',')) {
+        // trim leading/trailing spaces
+        item.erase(0, item.find_first_not_of(" \t"));
+        item.erase(item.find_last_not_of(" \t") + 1);
+        result.push_back(item);
+    }
+
+    return result;
+}
+
+bool operandsMatch(std::vector<std::string>& inputOps,
+                   const std::vector<std::string>& realOps)
+{
+    if (inputOps.empty())
+        return true; // only mnemonic required
+
+    if (inputOps.size() > realOps.size())
+        return false;
+    
+    for (size_t i = 0; i < inputOps.size(); i++) {
+        
+        if (!inputOps[i].empty() && inputOps[i].back() == ','){
+            inputOps[i].pop_back();
+        }
+        
+        if ((inputOps[i] != "*") && (inputOps[i] != realOps[i])){
+            return false;
+        }
+    }
+
+    return true;
+}
 
 /* Finds all starting indices in `big` where `small` matches contiguously
  against `big[i].first` (mnemonic strings), using exact string comparison.*/
- std::vector<size_t> find_subsequence(Instructions& big, std::vector<const char *>& small) {
+std::vector<size_t> find_subsequence(Instructions& big, std::vector<const char *>& small) {
     std::vector<size_t> result;
 
     size_t big_len = big.size();
@@ -29,9 +87,23 @@ typedef std::vector<std::pair<std::string, uint64_t>> Instructions; //Vector<pai
         bool match = true;
 
         for (size_t j = 0; j < small_len; j++) {
-            if (strcmp(big[i + j].first.c_str(), small[j]) != 0) {
+            
+            ParsedInput parsed = parseInput(small[j]);
+
+            if (strcmp(std::get<0>(big[i + j]).c_str(), parsed.mnemonic.c_str()) != 0) {
                 match = false;
                 break;
+            }
+
+            if (!parsed.operands.empty()) {
+                
+                std::string realOperandStr = std::get<1>(big[i + j]);
+                std::vector<std::string> realOps = splitRealOperands(realOperandStr);
+
+                if (!operandsMatch(parsed.operands, realOps)) {
+                    match = false;
+                    break;
+                }
             }
         }
 
@@ -161,7 +233,7 @@ std::vector<uint64_t> image_findInstructions(const struct mach_header_64* mh, st
                                 
                 for (size_t i = 0; i < count; i++) {
 
-                    instructions.push_back(std::pair(insn[i].mnemonic, insn[i].address));
+                    instructions.push_back(std::tuple(insn[i].mnemonic, insn[i].op_str, insn[i].address));
 
                 }
                 
@@ -182,7 +254,7 @@ std::vector<uint64_t> image_findInstructions(const struct mach_header_64* mh, st
     }
     
     for(auto index : indexes){
-        ret.push_back(instructions[index].second);
+        ret.push_back(std::get<2>(instructions[index]));
     }
     
     cs_close(&handle);

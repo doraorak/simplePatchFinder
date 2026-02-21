@@ -15,20 +15,20 @@ int main(int argc, const char * argv[] ) {
     
     const struct mach_header_64* mh = image_getFromBinaryName("libdyld.dylib");
    
-    const std::vector<uint64_t> results = image_findInstructions(mh, {"pacibsp", "stp", "stp", "add", "mov", "adrp", "ldr", "cmn", "b.ne", "adrp", "ldr", "cbz", "ldr", "mov", "ldp", "ldp", "autibsp", "eor", "tbz", "brk", "braaz", "mov", "ldp", "ldp", "autibsp", "eor", "tbz", "brk", "b", "bl", "b"});
+    const std::vector<uint64_t> results = image_findInstructions(mh, {"pacibsp", "stp * * [sp, #-0x20]!", "stp", "add", "mov x19 x0", "adrp", "ldr", "cmn x8", "b.ne", "adrp", "ldr", "cbz", "ldr", "mov", "ldp", "ldp", "autibsp", "eor x16", "tbz x16 #0x3e", "brk", "braaz x1", "mov", "ldp", "ldp", "autibsp", "eor", "tbz x16 * #0x1828d97f8", "brk #0xc471", "b", "bl", "b"});
     
     std::cout << results.size() << std::endl;
-    
  /*
     char* ins[9] = {"pacibsp", "sub", "stp", "stp", "stp", "add", "mov", "mov", "cmp"};
     size_t outcount;
     uint64_t* cresults = image_findInstructions(mh, ins, 9, &outcount); //also works in cpp
  */
-    
-    uint64_t add = results[2];
-    
-    int64_t addr = ((int64_t(*)())add)();
- 
+    if (!results.empty()){
+        uint64_t add = results[0];
+        
+        
+        int64_t addr = ((int64_t(*)())add)();
+    }
     return 1;
     
 }
